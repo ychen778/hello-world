@@ -1,0 +1,139 @@
+list = []
+list = []
+list.append(-113)
+list.append(-113)
+list.append(-113)
+list.append(-113)
+list.append(-113)
+list.append(-113)
+list.append(-113)
+list.append(-113)
+list.append(-113)
+list.append(-113)
+list.append(-113)
+print (f"in slot 0 you have a {list[0]}")
+print (f"in slot 1 you have a {list[1]}")
+print (f"in slot 2 you have a {list[2]}")
+print (f"in slot 3 you have a {list[3]}")
+print (f"in slot 4 you have a {list[4]}")
+print (f"in slot 5 you have a {list[5]}")
+print (f"in slot 6 you have a {list[6]}")
+print (f"in slot 7 you have a {list[7]}")
+print (f"in slot 8 you have a {list[8]}")
+print (f"in slot 9 you have a {list[9]}")
+
+list = []
+for i in range(10):
+    list.append(-113)
+for i in range(len(list)):
+    print (f"in slot {i} you have a {list[i]}")
+
+import random
+list = []
+for i in range(10):
+    list.append(random.randrange(100))
+for i in range(len(list)):
+    print (f"in slot {i} there is a {list[i]}")
+
+import random
+list = []
+for i in range(1000):
+    list.insert(1,random.randrange(10,99))
+for num in list:
+    print (num,end="  ")
+    print ()
+
+import random 
+list = []
+for i in range(10):
+    list1 = list.insert(1,random.randrange(1,100))
+new_list = list.copy()
+new_list[-1] = -7
+print (f"List 1: {new_list}")
+print (f"List 2: {list}")
+
+import random
+name = input("Please enter your name: ")
+filename = input("Please enter your file name: ")
+grades_list = []
+for i in range(5):
+    grades_list.insert(1,random.randrange(1,100))
+print (f"grade 1: {grades_list[0]}")
+print (f"grade 2: {grades_list[1]}")
+print (f"grade 3: {grades_list[2]}")
+print (f"grade 4: {grades_list[3]}")
+print (f"grade 5: {grades_list[4]}")
+
+print (f"{name}")
+print (f"{grades_list}")
+
+import random
+lists = []
+for i in range (10):
+    lists.insert(1,random.randrange(1,50))
+print (lists)
+num = int(input("What number are you looking for? "))
+for list in lists:
+    if num in lists:
+       print (f"{num} was in list")
+
+import random
+lists = []
+times = 0
+for i in range (10):
+    lists.insert(1,random.randrange(1,50))
+print (lists)
+num = int(input("What number are you looking for? "))
+for list in lists:
+    if num == list:
+       times += 1
+print (f"{num} was found {times} times")
+
+import random
+lists = []
+times = 0
+found = False
+for i in range (10):
+    lists.insert(1,random.randrange(1,50))
+print (lists)
+num = int(input("What number are you looking for? "))
+for list in lists:
+    if num == list:
+       found = True
+if found == True:
+    print (f"{num} was in the list")
+
+import random
+lists = []
+for i in range (10):
+    lists.insert(1,random.randrange(1,50))
+print (lists)
+num = int(input("Desired Value: "))
+for i in range(len(lists)):
+    number = lists[i]
+    if num == number:
+        print (f"found a {num} at {i}")
+        print (i)
+
+import random
+list = []
+for i in range(10):
+    list.append(random.randrange(1,100))
+print (list)
+max_value = list[0]
+for num in list:
+    if num > max_value:
+        max_value = num
+print(max_value)
+
+import random
+list = []
+for i in range(10):
+    list.append(random.randrange(1,100))
+print (list)
+max_value = list[0]
+for num in list:
+    if num > max_value:
+        max_value = num
+index = list.index(max_value)
+print (f"the largest number, {max_value} was found at {index}")
