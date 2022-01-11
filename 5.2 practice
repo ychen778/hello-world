@@ -1,0 +1,10 @@
+import random 
+list = []
+for i in range(10):
+    list1 = list.insert(1,random.randrange(1,100))
+new_list = list.copy()
+new_list[-1] = -7
+print (f"List 1: {new_list}")
+print (f"List 2: {list}")
+
+
