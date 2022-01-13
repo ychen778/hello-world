@@ -52,6 +52,7 @@ while running:
     screen.fill((135, 206, 235)) 
     draw_clouds(200,300)
     draw_clouds(100,150)
+    draw_clouds(50,50)
 
     # cloud
     
