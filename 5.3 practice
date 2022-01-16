@@ -1,4 +1,5 @@
 import random
+import time
 name = input("Please enter your name: ")
 filename = input("Please enter your file name: ")
 grades_list = []
@@ -10,8 +11,13 @@ print (f"grade 3: {grades_list[2]}")
 print (f"grade 4: {grades_list[3]}")
 print (f"grade 5: {grades_list[4]}")
 
-print (f"{name}")
-print (f"{grades_list}")
+open_file = input("would you like to open your file?: (y/n) ")
+if open_file == "y":
+    print (f"opening {filename}...")
+    time.sleep(10)
+    print (grades_list)
+else:
+    print ("okay thank you goodbye")
 
 import random
 lists = []
@@ -83,3 +89,9 @@ for num in list:
         max_value = num
 index = list.index(max_value)
 print (f"the largest number, {max_value} was found at {index}")
+
+
+
+
+
+    
