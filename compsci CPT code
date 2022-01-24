@@ -1,0 +1,276 @@
+import pygame, sys, random, os, glob
+from pygame.locals import K_ESCAPE, KEYDOWN, QUIT, K_a, K_SPACE, K_a, K_d, K_w, K_s, K_e, K_b, K_c, K_p, K_q
+from pygame.locals import MOUSEBUTTONDOWN
+from pygame import surface
+
+pygame.init()
+pygame.font.init()
+
+WIDTH = 700
+HEIGHT = 500
+size = (WIDTH, HEIGHT)
+screen = pygame.display.set_mode(size)
+clock = pygame.time.Clock()
+some_font = pygame.font.SysFont('Comic Sans MS', 20)
+title_font = pygame.font.SysFont('Comic Sans MS', 100)
+player_x = 97
+player_y = 335
+
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (30, 189, 57)
+BLUE = (61, 89, 227)
+BROWN = (138, 78, 10)
+
+rain_list = []
+# Create an empty array or list in order for the rain to be stored
+rain_list = []
+# Loop 50 times and add a rain drop in a random x and y position
+for i in range(50):
+    rainx = random.randrange(0, 900)
+    rainy = random.randrange(0, 900)
+    rain_list.append([rainx, rainy])
+clock = pygame.time.Clock()
+
+# defining each object with parameters that would later require me to set the parameters
+def draw_menu():
+    screen.fill(BLACK)
+    menu_message1 = some_font.render(
+        "You find yourself in a room, a room you have never seen before.",
+        True, WHITE)
+    screen.blit(menu_message1, (20, 50))
+    menu_message2 = some_font.render(
+        "You are not sure how you got there, but you are certain that you have to find a way out",
+        True, WHITE)
+    screen.blit(menu_message2, (20, 80))
+    menu_message3 = some_font.render(
+        "You look around and you hear the rain hitting to windows. You need to find a way back home.",
+        True, WHITE)
+    screen.blit(menu_message3, (20, 110))
+    menu_message4 = some_font.render("Press 'c' to continue.", True, WHITE)
+    menu_message5 = some_font.render(
+        "Please don't click the screen unless it says enter the password.",
+        True, WHITE)
+    instructions = some_font.render("Use 'wasd' to move", True, WHITE)
+    screen.blit(instructions, (20, 200))
+    screen.blit(menu_message4, (20, 140))
+    screen.blit(menu_message5, (20, 170))
+    welcome_message = some_font.render("Welcome to...", True, WHITE)
+    screen.blit(welcome_message, (295, 270))
+    title = title_font.render("The Escape Room", True, (114, 115, 67))
+    screen.blit(title, (50, 300))
+
+
+def draw_game2():
+    screen.fill(BLACK)
+    pygame.draw.polygon(screen, (24, 46, 82), [(10, 13), (658, 11), (643, -10),
+                                               (-10, -10)])
+    pygame.draw.polygon(screen, (37, 72, 128), [(10, 461), (12, 11), (1, 2),
+                                                (0, 444)])
+    pygame.draw.rect(screen, (34, 65, 115), (10, 10, 650, 450))
+    # Table
+    pygame.draw.rect(screen, (28, 52, 92), (50, 60, 160, 50))
+    pygame.draw.rect(screen, BROWN, (20, 20, 150, 50))
+    pygame.draw.polygon(screen, (107, 60, 7), [(20, 70), (170, 70), (190, 100),
+                                               (40, 100)])
+    pygame.draw.polygon(screen, (74, 42, 5), [(191, 52), (193, 100), (169, 71),
+                                              (171, 22)])
+    #bed
+    pygame.draw.rect(screen, (28, 52, 92), (429, 60, 200, 80))
+    pygame.draw.rect(screen, (117, 40, 143), (400, 20, 200, 100))
+    pygame.draw.rect(screen, (WHITE), (561, 41, 50, 60))
+    pygame.draw.polygon(screen, (89, 30, 110), [(400, 120), (600, 120),
+                                                (620, 130), (420, 130)])
+    pygame.draw.polygon(screen, (125, 81, 11), [(584, 111), (581, 11),
+                                                (621, 28), (622, 129)])
+    pygame.draw.line(screen, (150, 98, 14), (584, 111), (581, 11), 10)
+    pygame.draw.rect(screen, (255, 242, 227), (431, 82, 10, 15))
+    # Lamp
+    pygame.draw.ellipse(screen, (102, 57, 6), (95, 25, 20, 30))
+    pygame.draw.ellipse(screen, (224, 138, 0), (90, 20, 20, 30))
+    pygame.draw.circle(screen, WHITE, (100, 20), 10)
+
+
+def draw_carpet(x: int, y: int,pygame,screen):
+    pygame.draw.rect(screen, (28, 52, 92), (x + 6, y + 6, 250, 150))
+    pygame.draw.rect(screen, (4, 102, 22), (x, y, 250, 150))
+
+
+def draw_east_door(x: int, y: int,pygame,screen):
+    pygame.draw.rect(screen, (255, 242, 227), (x, y, 15, 150))
+    pygame.draw.circle(screen, (191, 145, 92), (654, 273), 8)
+
+
+def draw_blinds(x: int, y: int,pygame,screen):
+    pygame.draw.rect(screen, (0, 0, 0), (x + 30, y + 15, 80, 40))
+    pygame.draw.polygon(screen, (24, 49, 87), [(241, 12), (252, 34), (290, 32),
+                                               (288, 8)])
+    pygame.draw.polygon(screen, (24, 49, 87), [(328, 21), (328, 32), (376, 36),
+                                               (376, 8)])
+    pygame.draw.polygon(screen, (104, 43, 128), [(x - 20, y), (x + 50, y - 22),
+                                                 (x + 54, y + 80),
+                                                 (x + 5, y + 80)])
+    pygame.draw.polygon(screen, (104, 43, 128), [(x + 70, y), (x + 90, y + 80),
+                                                 (x + 140, y + 80),
+                                                 (x + 147, y)])
+
+# Screen
+current_screen = "menu"
+dude_image = pygame.image.load("dude.png")
+dude = pygame.transform.scale(dude_image, (75, 100))
+
+running = True
+player_move = False
+carpet_move = False
+right = True
+left = True
+up = True
+down = True
+got_key = False
+note_read = False
+note_finished_reading = False
+got_answers = False
+show_questions = False
+south_door_enter = False
+while running:
+    # EVENT HANDLING
+    for event in pygame.event.get():
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                running = False
+            if event.key == K_SPACE:
+                note_read = True
+            if event.key == K_b:
+                show_questions = True
+            if event.key == K_c and current_screen == "menu":
+                current_screen = "game2"
+
+    dude_rect = pygame.draw.rect(screen, (BLACK),
+                                    (player_x + 10, player_y + 10, 50, 75))
+    bed_rect = pygame.draw.rect(screen, (117, 40, 143), (400, 20, 200, 100))
+    carpet_rect = pygame.draw.rect(screen, (28, 52, 92),
+                                   (193 + 6, 162 + 6, 250, 150))
+    table_rect = pygame.draw.rect(screen, BROWN, (20, 20, 150, 50))
+    east_door_rect = pygame.draw.rect(screen, (255, 242, 227),
+                                      (649, 150, 15, 150))
+    east_border_rect = pygame.draw.rect(screen, (0, 0, 0), (665, 0, 25, 500))
+    south_border_rect = pygame.draw.rect(screen, BLACK, (14, 435, 700, 20))
+    blinds_rect = pygame.draw.rect(screen, (0, 0, 0), (0, -30, 700, 40))
+    whiteboard_rect = pygame.draw.rect(screen, (WHITE), (430, 150, 15, 200))
+    south_door_rect = pygame.draw.rect(screen, (255, 242, 227),
+                                       (260, 485, 160, 25))
+
+    # Player Movement
+    keys = pygame.key.get_pressed()
+    if keys[K_d]:
+        if right == True:
+            player_x += 5
+
+    if keys[K_a]:
+        if left is True:
+            player_x -= 5
+
+    if keys[K_w]:
+        if up is True:
+            player_y -= 5
+
+    if keys[K_s]:
+        if down is True:
+            player_y += 5
+
+    if player_y > 500:
+        current_screen = "game1"
+        player_y = -100
+    if player_y < -100:
+        current_screen = "game3"
+        player_y = 500
+    if player_x < 0:
+        left = False
+    else:
+        left = True
+    if player_x > 700:
+        current_screen = "game3"
+        player_x = -100
+
+    if current_screen == "game2":
+        draw_game2()
+        draw_carpet(carpet_x, carpet_y)
+        draw_east_door(649, 150,pygame,screen)
+        draw_blinds(225, -45,pygame,screen)
+    # Processing each rain drop in the list
+    for i in range(len(rain_list)):
+        #drawing each rain drop for the game
+        pygame.draw.circle(screen, (110, 141, 212), rain_list[i], 2)
+        #speed of rain drop (moving 10 pixels per frame)
+        rain_list[i][1] += 10
+        # Reset the rain drop once it goes past a certain point (the bottom to the top)
+        if rain_list[i][1] > 900:
+
+            rainy = random.randrange(-50, -10)
+            rain_list[i][1] = rainy
+
+            rainx = random.randrange(0, 900)
+            rain_list[i][0] = rainx
+
+    pygame.draw.ellipse(screen, (0, 0, 0),
+                        (player_x + 15, player_y + 90, 50, 20))
+    screen.blit(dude, (player_x, player_y))
+    if current_screen == "menu":
+        draw_menu()
+    if dude_rect.colliderect(bed_rect):
+        code_message = some_font.render(
+            "I don't have time to sleep, but there is a note on the bed, press space to read",
+            True, WHITE)
+        screen.blit(code_message, (player_x - 200, player_y + 50))
+    if dude_rect.colliderect(east_border_rect) and got_key == False:
+        right = False
+        lock_message = some_font.render("The door has a lock, I need a key.",
+                                        True, WHITE)
+        screen.blit(lock_message, (player_x - 250, player_y - 20))
+    else:
+        right = True
+    if dude_rect.colliderect(
+            blinds_rect
+    ) and note_finished_reading == False and current_screen == "game2":
+        window_message = some_font.render(
+            "It looks like the window is locked, if I can find something to break it, I can get out",
+            True, WHITE)
+        screen.blit(window_message, (player_x - 170, player_y + 150))
+    if dude_rect.colliderect(
+            blinds_rect
+    ) and current_screen == "game2" or dude_rect.colliderect(
+            bed_rect) and current_screen == "game2" or dude_rect.colliderect(
+                table_rect) and current_screen == "game2":
+        up = False
+    else:
+        up = True
+    if dude_rect.colliderect(
+            blinds_rect
+    ) and note_finished_reading == True and current_screen == "game2":
+        got_key = True
+        blinds_message = some_font.render("I found a key", True, WHITE)
+        screen.blit(blinds_message, (player_x, player_y + 120))
+    if dude_rect.colliderect(south_border_rect) and current_screen == "game2":
+        down = False
+    else:
+        down = True
+
+    if note_read == True and dude_rect.colliderect(bed_rect):
+        pygame.draw.rect(screen, (214, 180, 86), (107, 113, 300, 200))
+        note = some_font.render("My name means “sightless,”", True, BLACK)
+        note_continued = some_font.render("but if you want to see, all you ",
+                                          True, BLACK)
+        note_continued_continued = some_font.render("have to do is open me.",
+                                                    True, BLACK)
+        screen.blit(note, (120, 130))
+        screen.blit(note_continued, (120, 155))
+        screen.blit(note_continued_continued, (120, 180))
+        note_finished_reading = True
+    else:
+        note_read = False
+    pygame.display.flip()
+    clock.tick(30)
+    #---------------------------
+
+pygame.quit()
